@@ -1,0 +1,12 @@
+-e bin/
+*.exe
+*.out
+*.test
+-e bin/
+*.exe
+*.out
+*.test
+-e bin/
+*.exe
+*.out
+*.test
