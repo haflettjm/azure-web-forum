@@ -1,3 +1,3 @@
-module github.com/example/azure-web-forum
+module github.com/haflettjm/azure-web-forum/backend
 
-go 1.24.0
+go 1.24.1
