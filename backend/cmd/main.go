@@ -6,11 +6,16 @@ import (
   "net/http"
 
   "github.com/yourusername/azure-web-forum/backend/internal/handlers"
-
+  "github.com/yourusername/azure-web-forum/backend/internal/db"
 )
 
 
 func main() {
+  connStr := os.Getenv("DATABASE_URL")
+
+  if connStr == "" {
+    log.Fatal("DATABASE_URL enviornment variable not set")
+  }
   // Define Handlers
   http.HandleFunc("/", handlers.HomeHandler)
   http.HandleFunc("/users", handlers.UserHandler)
