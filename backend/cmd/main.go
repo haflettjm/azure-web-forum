@@ -6,7 +6,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/yourusername/azure-web-forum/backend/internal/handlers"
+	"github.com/haflettjm/azure-web-forum/backend/internal/db"
+	"github.com/haflettjm/azure-web-forum/backend/internal/handlers"
 )
 
 func server(route string) {
@@ -21,21 +22,25 @@ func server(route string) {
 }
 
 func main() {
+	// Load environment variable
 	connStr := os.Getenv("DATABASE_URL")
-
 	if connStr == "" {
-		log.Fatal("DATABASE_URL enviornment variable not set")
+		log.Fatal("DATABASE_URL environment variable not set")
 	}
-	// Define Handlers
+
+	// Initialize the DB connection
+	if err := db.InitDB(connStr); err != nil {
+		log.Fatalf("Failed to connect to database: %v", err)
+	}
+
+	// Set up routes
 	http.HandleFunc("/", handlers.HomeHandler)
 	http.HandleFunc("/users", handlers.UserHandler)
 	http.HandleFunc("/posts", handlers.PostHandler)
 
-	// Start Server
-	fmt.Println("Starting Server on :8080")
-	err := http.ListenAndServe(":8080", nil)
-
-	if err != nil {
+	// Start the server
+	fmt.Println("Starting server on :8080...")
+	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatalf("Server failed to start: %v", err)
 	}
 }
