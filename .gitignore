@@ -7,3 +7,4 @@ bin/
 *.exe
 *.out
 *.test
+.idea/
